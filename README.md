@@ -1,15 +1,17 @@
-# 🌫️ NO2 Forecasting — Urban Air Quality Prediction with Deep Learning
+# <h1 align="center">🌫️ NO2 Forecasting — Urban Air Quality Prediction with Deep Learning</h1>
 
-**Three deep learning models (LSTM, GRU, TCN) trained on real UK air quality sensor data to forecast hourly NO2 concentrations in London.**
+<p align="center">
+  Three deep learning models (LSTM, GRU, TCN) trained on real UK air quality sensor data to forecast hourly NO2 concentrations in London.
+</p>
 
-<br/>
-
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?logo=tensorflow&logoColor=white)
-![Flask](https://img.shields.io/badge/Dashboard-Flask-000000?logo=flask&logoColor=white)
-![Dataset](https://img.shields.io/badge/Data-UK%20DEFRA%20AURN-0078D4)
-![Best RMSE](https://img.shields.io/badge/Best%20RMSE-6.09%20µg%2Fm³-2ea44f)
-![Status](https://img.shields.io/badge/Status-Completed-2ea44f)
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" />
+  <img alt="TensorFlow" src="https://img.shields.io/badge/TensorFlow-2.x-FF6F00?logo=tensorflow&logoColor=white" />
+  <img alt="Flask" src="https://img.shields.io/badge/Dashboard-Flask-000000?logo=flask&logoColor=white" />
+  <img alt="Dataset" src="https://img.shields.io/badge/Data-UK%20DEFRA%20AURN-0078D4" />
+  <img alt="Best RMSE" src="https://img.shields.io/badge/Best%20RMSE-6.09%20µg%2Fm³-2ea44f" />
+  <img alt="Status" src="https://img.shields.io/badge/Status-Completed-2ea44f" />
+</p>
 
 ---
 
