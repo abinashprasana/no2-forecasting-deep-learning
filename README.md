@@ -27,7 +27,7 @@ The best model (LSTM) achieves an **RMSE of 6.09 µg/m³** on the held-out test 
 
 <!-- Record your screen running train.py and then the Flask dashboard, then upload here -->
 
-https://github.com/user-attachments/assets/YOUR-VIDEO-ID-HERE
+https://github.com/user-attachments/assets/e28f6e92-73d2-4c7a-96fc-301462064233
 
 ---
 
