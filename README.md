@@ -118,23 +118,6 @@ GlobalAveragePooling1D()
 Dense(1)
 Optimizer: Adam | Loss: MSE | Early Stopping: patience=7
 ```
-
----
-
-## 📈 Visualisations
-
-**EDA:**
-- All 8 pollutant time series across the full year
-- NO2 daily cycle — March 2025 closeup
-- Monthly average NO2 — seasonal pattern
-- Feature correlation heatmap
-
-**Evaluation:**
-- Training vs validation loss curves for all three models
-- Forecast overlay — actual vs predicted for first 200 test hours
-- Predicted vs actual scatter plots with perfect-fit reference line
-- 2×2 metric comparison bar charts (MAE, MSE, RMSE, MAPE)
-
 ---
 
 ## 🌐 Flask Dashboard
