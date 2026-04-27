@@ -71,13 +71,13 @@ Raw DEFRA CSV → Cleaning → Scaling → Sliding Window (24h)
 ## 📊 Dataset
 
 - **Source:** UK DEFRA Automatic Urban and Rural Network (AURN)
-- **Station:** London Marylebone Road (site ID: MY1) — a six-lane urban road with ~80,000 vehicles/day
+- **Station:** London Marylebone Road (site ID: MY1), a six-lane urban road with ~80,000 vehicles/day
 - **Period:** Full calendar year 2025 (January → January)
 - **Size:** 7,843 hourly rows
 - **Target variable:** NO2 concentration (µg/m³)
 - **Input features:** CO, PM10, NO, NO2, NOx, O3, PM2.5, SO2
 
-**Split:** 70% Train / 15% Validation / 15% Test — strict chronological order, no shuffling
+**Split:** 70% Train / 15% Validation / 15% Test: strict chronological order, no shuffling
 
 ---
 
@@ -87,7 +87,7 @@ Raw DEFRA CSV → Cleaning → Scaling → Sliding Window (24h)
 - **Artefact removal:** Negative instrument readings replaced with NaN
 - **Outlier handling:** Values above the 99th percentile clipped per column
 - **Imputation:** Linear interpolation for gaps up to 6 consecutive hours
-- **Scaling:** MinMaxScaler fitted on training set only — applied separately to validation and test
+- **Scaling:** MinMaxScaler fitted on training set only, applied separately to validation and test
 
 ---
 
