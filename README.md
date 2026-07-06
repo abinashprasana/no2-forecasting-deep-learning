@@ -71,9 +71,9 @@ Raw DEFRA CSV → Cleaning → Scaling → Sliding Window (24h)
 ## 📊 Dataset
 
 - **Source:** UK DEFRA Automatic Urban and Rural Network (AURN)
-- **Station:** London Marylebone Road (site ID: MY1), a six-lane urban road with ~80,000 vehicles/day
-- **Period:** Full calendar year 2025 (January → January)
-- **Size:** 7,843 hourly rows
+- **Station:** London Marylebone Road (site ID: MY1)
+- **Period:** 2025 hourly file; the final `31-12-2025 24:00` record is normalized to `2026-01-01 00:00` during datetime cleaning
+- **Size:** 7,843 cleaned hourly rows after preprocessing
 - **Target variable:** NO2 concentration (µg/m³)
 - **Input features:** CO, PM10, NO, NO2, NOx, O3, PM2.5, SO2
 
@@ -176,6 +176,8 @@ Then open `http://localhost:5000` in your browser.
 ## Deploy on Render
 
 This repo includes a lightweight Render setup for the dashboard only. The hosted app uses the saved PNG plots in `static/` and the saved metrics in `results.json`; it does not retrain the models online.
+
+Live dashboard: https://no2-forecasting-dashboard.onrender.com/
 
 Render settings:
 

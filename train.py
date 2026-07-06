@@ -73,7 +73,8 @@ def save_eda_plots(df):
     ax.grid(True, alpha=0.25)
     save_figure(fig, STATIC_DIR / "eda_no2_march.png")
 
-    monthly_avg = df["NO2"].resample("ME").mean()
+    no2_2025 = df.loc[df.index.year == 2025, "NO2"]
+    monthly_avg = no2_2025.resample("ME").mean()
     fig, ax = plt.subplots(figsize=(10, 4))
     ax.bar(monthly_avg.index.strftime("%b"), monthly_avg.values, color=MODEL_COLORS["GRU"])
     ax.set_title("Average NO2 by month")
