@@ -173,6 +173,28 @@ Then open `http://localhost:5000` in your browser.
 
 ---
 
+## Deploy on Render
+
+This repo includes a lightweight Render setup for the dashboard only. The hosted app uses the saved PNG plots in `static/` and the saved metrics in `results.json`; it does not retrain the models online.
+
+Render settings:
+
+```bash
+Build Command: pip install -r requirements-deploy.txt
+Start Command: gunicorn app:app
+```
+
+Files needed for the hosted dashboard:
+- `app.py`
+- `results.json`
+- `static/`
+- `requirements-deploy.txt`
+- `render.yaml`
+
+Use `requirements.txt` only when training locally with `python train.py`.
+
+---
+
 ## 🧪 Limitations and Future Work
 
 - One year of data captures a single seasonal cycle, multi-year data would strengthen generalisation

@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: no2-forecasting-dashboard
+    env: python
+    buildCommand: pip install -r requirements-deploy.txt
+    startCommand: gunicorn app:app
+    autoDeploy: true
