@@ -65,12 +65,15 @@ def save_eda_plots(df):
     save_figure(fig, STATIC_DIR / "eda_all_pollutants.png", rect=[0, 0, 1, 0.97])
 
     sample = df["NO2"].loc["2025-03-01":"2025-03-31"]
-    fig, ax = plt.subplots(figsize=(13, 4))
-    ax.plot(sample.index, sample.values, color=MODEL_COLORS["LSTM"], linewidth=1)
-    ax.set_title("NO2, March 2025")
+    fig, ax = plt.subplots(figsize=(10, 4))
+    ax.plot(sample.index, sample.values, color=MODEL_COLORS["GRU"], linewidth=1.4)
+    ax.set_title("NO2 in March 2025")
     ax.set_xlabel("Date")
     ax.set_ylabel("NO2 (ug/m^3)")
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=4))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %d"))
     ax.grid(True, alpha=0.25)
+    plt.setp(ax.xaxis.get_majorticklabels(), rotation=0, ha="center")
     save_figure(fig, STATIC_DIR / "eda_no2_march.png")
 
     no2_2025 = df.loc[df.index.year == 2025, "NO2"]

@@ -1,222 +1,171 @@
-# <h1 align="center">🌫️ NO2 Forecasting — Urban Air Quality Prediction with Deep Learning</h1>
+# 🌫️ NO2 Forecasting Dashboard
 
 <p align="center">
-  Three deep learning models (LSTM, GRU, TCN) trained on real UK air quality sensor data to forecast hourly NO2 concentrations in London.
+  <strong>Hourly nitrogen dioxide forecasting for London Marylebone Road using LSTM, GRU, and TCN models.</strong>
 </p>
 
 <p align="center">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" />
-  <img alt="TensorFlow" src="https://img.shields.io/badge/TensorFlow-2.x-FF6F00?logo=tensorflow&logoColor=white" />
-  <img alt="Flask" src="https://img.shields.io/badge/Dashboard-Flask-000000?logo=flask&logoColor=white" />
-  <img alt="Dataset" src="https://img.shields.io/badge/Data-UK%20DEFRA%20AURN-0078D4" />
-  <img alt="Best RMSE" src="https://img.shields.io/badge/Best%20RMSE-6.09%20µg%2Fm³-2ea44f" />
-  <img alt="Status" src="https://img.shields.io/badge/Status-Completed-2ea44f" />
+  <img alt="Python" src="https://img.shields.io/badge/Python-Project-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="TensorFlow" src="https://img.shields.io/badge/TensorFlow-Training-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white">
+  <img alt="Flask" src="https://img.shields.io/badge/Flask-Dashboard-111827?style=for-the-badge&logo=flask&logoColor=white">
+  <img alt="Render" src="https://img.shields.io/badge/Render-Free_Service-46E3B7?style=for-the-badge&logo=render&logoColor=111827">
 </p>
 
----
+<p align="center">
+  <a href="https://no2-forecasting-dashboard.onrender.com/">
+    <img alt="Open live dashboard" src="https://img.shields.io/badge/Open_Live_Dashboard-0EA5E9?style=for-the-badge&logo=render&logoColor=white">
+  </a>
+  <a href="https://github.com/abinashprasana/no2-forecasting-deep-learning">
+    <img alt="View repository" src="https://img.shields.io/badge/View_Repository-181717?style=for-the-badge&logo=github&logoColor=white">
+  </a>
+</p>
 
-## 🔎 What This Is
+## What This Project Is
 
-This project trains and compares three deep learning architectures for one-hour-ahead NO2 forecasting using real hourly sensor data from the **London Marylebone Road monitoring station**, one of the most studied urban air quality sites in the UK.
+This is a student data science project that forecasts the next hourly NO2 value from recent air quality readings. I used real UK DEFRA AURN data from the London Marylebone Road monitoring station, cleaned the dataset, trained three deep learning models, and deployed the saved results in a Flask dashboard.
 
-The best model (LSTM) achieves an **RMSE of 6.09 µg/m³** on the held-out test set. Results are visualised through a clean **Flask web dashboard** showing EDA plots, training curves, forecast overlays, and a model comparison table.
+The dashboard is live here:
 
----
+**https://no2-forecasting-dashboard.onrender.com/**
 
-## 🎥 Demo Video
+The hosted app shows the saved plots and saved metrics. It does not train the models online.
 
-<!-- Record your screen running train.py and then the Flask dashboard, then upload here -->
+## Dashboard Preview
 
-https://github.com/user-attachments/assets/e28f6e92-73d2-4c7a-96fc-301462064233
+<p align="center">
+  <img src="static/forecast_comparison.png" alt="Forecast comparison plot" width="48%">
+  <img src="static/results_comparison.png" alt="Model comparison plot" width="48%">
+</p>
 
----
+## Results
 
-## 🏆 Model Performance (Test Set)
+The saved test metrics are computed after converting the scaled predictions back to the original NO2 scale.
 
 | Model | MAE | MSE | RMSE | MAPE (%) |
-|---|---|---|---|---|
-| **LSTM** ⭐ | **4.546** | **37.05** | **6.087** | **22.98** |
-| GRU | 5.976 | 57.59 | 7.589 | 36.68 |
-| TCN | 10.821 | 183.81 | 13.558 | 72.07 |
+|---|---:|---:|---:|---:|
+| **LSTM** | **4.5460** | **37.0458** | **6.0865** | **22.9770** |
+| GRU | 5.9759 | 57.5909 | 7.5889 | 36.6754 |
+| TCN | 10.8209 | 183.8128 | 13.5578 | 72.0659 |
 
-The **LSTM outperformed the GRU by ~20% on RMSE** and outperformed the TCN by a significant margin across all four metrics.
+**Best model:** LSTM  
+**Best RMSE:** 6.0865 ug/m^3  
+**RMSE gap to GRU:** 1.5024 ug/m^3
 
-All models were trained on the same dataset under identical conditions. Metrics are computed on the original µg/m³ scale after inverse-transforming scaled predictions.
+## Dataset
 
----
+| Item | Value |
+|---|---|
+| Source | UK DEFRA Automatic Urban and Rural Network |
+| Station | London Marylebone Road |
+| Site ID | MY1 |
+| File | `MY1_2025.csv` |
+| Target | NO2 |
+| Input features | CO, PM10, NO, NO2, NOx, O3, PM2.5, SO2 |
+| Raw rows | 8,760 |
+| Cleaned rows | 7,843 |
+| Cleaned range | `2025-01-01 01:00` to `2026-01-01 00:00` |
 
-## 🧠 How It Works
+The original file is a 2025 hourly file. DEFRA records the final hour as `31-12-2025 24:00`, and the code normalizes that timestamp to `2026-01-01 00:00`.
 
-```
-Raw DEFRA CSV → Cleaning → Scaling → Sliding Window (24h)
-                                              ↓
-                              LSTM / GRU / TCN Training
-                                              ↓
-                         Inverse Transform → µg/m³ Predictions
-                                              ↓
-                              Flask Dashboard → Results
-```
+## Method
 
-**Pipeline trace for a single prediction:**
-1. Raw hourly readings arrive with 8 pollutant measurements
-2. Negative instrument artefacts replaced, outliers clipped at 99th percentile
-3. Short gaps filled with linear interpolation (max 6 hours)
-4. All 8 features scaled to [0, 1] using MinMaxScaler fitted on training set only
-5. Current hour appended to previous 23 hours → sequence shape `(24, 8)`
-6. LSTM processes the sequence → outputs a single scaled scalar
-7. Inverse transform converts back to µg/m³ (e.g. `0.23 → 45.2 µg/m³`)
+1. Load the DEFRA CSV after the four metadata rows.
+2. Keep eight pollutant columns used by the project.
+3. Convert pollutant values to numeric values.
+4. Replace negative readings with missing values.
+5. Clip each pollutant at the 99th percentile.
+6. Fill short gaps with linear interpolation up to six hours.
+7. Split the data in chronological order.
+8. Scale values with `MinMaxScaler` fitted on training data only.
+9. Build 24 hour input sequences.
+10. Train LSTM, GRU, and TCN models.
+11. Convert predictions back to the original NO2 scale.
+12. Save plots and metrics for the Flask dashboard.
 
----
+## Data Split
 
-## 📊 Dataset
+| Split | Rows before windowing | Sequences after 24 hour window |
+|---|---:|---:|
+| Train | 5,490 | 5,466 |
+| Validation | 1,176 | 1,152 |
+| Test | 1,177 | 1,153 |
 
-- **Source:** UK DEFRA Automatic Urban and Rural Network (AURN)
-- **Station:** London Marylebone Road (site ID: MY1)
-- **Period:** 2025 hourly file; the final `31-12-2025 24:00` record is normalized to `2026-01-01 00:00` during datetime cleaning
-- **Size:** 7,843 cleaned hourly rows after preprocessing
-- **Target variable:** NO2 concentration (µg/m³)
-- **Input features:** CO, PM10, NO, NO2, NOx, O3, PM2.5, SO2
+The split is chronological, so the test set comes after the training and validation periods.
 
-**Split:** 70% Train / 15% Validation / 15% Test: strict chronological order, no shuffling
+## Model Summary
 
----
+| Model | Architecture used in this project |
+|---|---|
+| LSTM | LSTM 64, LSTM 32, Dense 1 |
+| GRU | GRU 64, GRU 32, Dense 1 |
+| TCN | Conv1D 64, Conv1D 64 with dilation 2, Conv1D 32 with dilation 4, GlobalAveragePooling1D, Dense 1 |
 
-## 🧹 Preprocessing
+All models use Adam, MSE loss, early stopping, and a reduce learning rate callback.
 
-- **Datetime fix:** DEFRA's `24:00` end-of-day format shifted to `00:00` next day
-- **Artefact removal:** Negative instrument readings replaced with NaN
-- **Outlier handling:** Values above the 99th percentile clipped per column
-- **Imputation:** Linear interpolation for gaps up to 6 consecutive hours
-- **Scaling:** MinMaxScaler fitted on training set only, applied separately to validation and test
+## Dashboard Sections
 
----
+| Section | What it shows |
+|---|---|
+| Overview | Cleaned rows, input count, lookback window, and best model |
+| Data | EDA plots for pollutant readings, March NO2, monthly NO2, and correlation |
+| Training | Training and validation loss curves |
+| Forecast | Test forecast line plot and predicted versus actual scatter plots |
+| Metrics | Saved MAE, MSE, RMSE, and MAPE table |
 
-## 🧩 Model Architectures
+## Project Files
 
-**LSTM (Best Performer)**
-```
-LSTM(64, return_sequences=True)
-LSTM(32, return_sequences=False)
-Dense(1)
-Optimizer: Adam | Loss: MSE | Early Stopping: patience=7
-```
+| File or folder | Purpose |
+|---|---|
+| `data.py` | Loads, cleans, splits, scales, and windows the data |
+| `models.py` | Builds the LSTM, GRU, and TCN models |
+| `train.py` | Runs training and saves result plots |
+| `app.py` | Flask dashboard app |
+| `results.json` | Saved test metrics |
+| `static/` | Saved PNG plots used by the dashboard |
+| `requirements.txt` | Local training dependencies |
+| `requirements-deploy.txt` | Lightweight Flask deployment dependencies |
+| `render.yaml` | Render service configuration |
 
-**GRU**
-```
-GRU(64, return_sequences=True)
-GRU(32, return_sequences=False)
-Dense(1)
-Optimizer: Adam | Loss: MSE | Early Stopping: patience=7
-```
-
-**TCN (Temporal Convolutional Network)**
-```
-Conv1D(64, kernel=3, dilation=1, causal padding)
-Conv1D(64, kernel=3, dilation=2, causal padding)
-Conv1D(32, kernel=3, dilation=4, causal padding)
-GlobalAveragePooling1D()
-Dense(1)
-Optimizer: Adam | Loss: MSE | Early Stopping: patience=7
-```
----
-
-## 🌐 Flask Dashboard
-
-Run the app to explore all results in your browser:
-
-**Sections:**
-- 📊 Exploratory Data Analysis
-- 📉 Model Training and Validation Curves
-- 🔮 Forecasting Results
-- 🏆 Final Evaluation Metrics Table
-
----
-
-## 🗂️ Project Structure
-
-```text
-no2-forecasting/
-├── data.py              # Data loading, cleaning, split, scaling, windowing
-├── models.py            # LSTM, GRU, TCN builders + compute_metrics()
-├── train.py             # Full training pipeline — saves plots + results.json
-├── app.py               # Flask dashboard
-├── static/              # Generated PNG plots (created by train.py)
-├── results.json         # Model metrics (created by train.py)
-├── MY1_2025.csv         # Raw DEFRA dataset (download separately)
-└── requirements.txt
-```
-
----
-
-## ⚙️ Setup and Usage
+## Run Locally
 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/abinashprasana/no2-forecasting-deep-learning.git
 cd no2-forecasting-deep-learning
-
-# 2. Install dependencies
 pip install -r requirements.txt
-
-# 3. Download the dataset
-# Get MY1_2025.csv from: https://uk-air.defra.gov.uk/data/data_selector
-# Place it in the root project folder
-
-# 4. Train all three models (saves plots + results.json)
 python train.py
-
-# 5. Launch the Flask dashboard
 python app.py
 ```
 
-Then open `http://localhost:5000` in your browser.
+Then open:
 
----
+```text
+http://localhost:5000
+```
 
-## Deploy on Render
+## Deployment
 
-This repo includes a lightweight Render setup for the dashboard only. The hosted app uses the saved PNG plots in `static/` and the saved metrics in `results.json`; it does not retrain the models online.
-
-Live dashboard: https://no2-forecasting-dashboard.onrender.com/
-
-Render settings:
+The deployed dashboard runs on Render using the saved images and saved metrics.
 
 ```bash
 Build Command: pip install -r requirements-deploy.txt
 Start Command: gunicorn app:app
 ```
 
-Files needed for the hosted dashboard:
-- `app.py`
-- `results.json`
-- `static/`
-- `requirements-deploy.txt`
-- `render.yaml`
+Only the dashboard dependencies are installed on Render. The deep learning training libraries are kept in `requirements.txt` for local training.
 
-Use `requirements.txt` only when training locally with `python train.py`.
+## Limitations
 
----
+1. The project uses one monitoring station, so the result should not be treated as a general model for all cities.
+2. The dataset covers one calendar year, which limits long term seasonal testing.
+3. The models use pollutant readings only. Time features such as hour of day and day of week could be tested later.
+4. Peak NO2 values are harder to predict, especially after clipping high outliers during preprocessing.
+5. The TCN model is intentionally small. A wider dilation setup could be tested in future work.
 
-## 🧪 Limitations and Future Work
+## Data Source
 
-- One year of data captures a single seasonal cycle, multi-year data would strengthen generalisation
-- All models underpredict peak NO2 values above ~40 µg/m³, partly due to 99th percentile clipping during preprocessing
-- Adding temporal features (hour-of-day, day-of-week) could improve performance, especially for the TCN
-- A deeper TCN with wider dilation rates (1, 2, 4, 8, 16) would likely close the gap with the recurrent models
-- The dataset comes from a single monitoring station, results may not generalise to other urban environments
+UK DEFRA Automatic Urban and Rural Network  
+https://uk-air.defra.gov.uk
 
----
-
-## 📌 Data Source
-
-**UK DEFRA Automatic Urban and Rural Network (AURN)**
-Available at: https://uk-air.defra.gov.uk
-Open Government Licence v3.0
-
----
-
-## 🙋 Author
+## Author
 
 **Abinash Prasana Selvanathan**
-
-⭐ If you found this useful, feel free to star the repo.
