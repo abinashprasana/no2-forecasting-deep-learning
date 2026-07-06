@@ -217,7 +217,7 @@ This keeps the hosted app simple because TensorFlow is only needed when training
 
 ## ⚠️ Notes
 
-This is a student project built around one monitoring station and one year of hourly data. The results are useful for comparing the three model approaches on this dataset, but they should not be treated as a general air quality model for every location.
+This project is built around one monitoring station and one year of hourly data. The results are useful for comparing the three model approaches on this dataset, but they should not be treated as a general air quality model for every location.
 
 Future improvements could include adding time features such as hour of day, testing more years of data, tuning the TCN, and comparing against simpler baselines.
 
