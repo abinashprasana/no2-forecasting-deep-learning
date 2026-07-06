@@ -575,7 +575,7 @@ HTML = """
     <section id="overview" class="hero">
       <div class="hero-copy">
         <p class="kicker">2025 hourly data</p>
-        <h1>NO2 forecast dashboard.</h1>
+        <h1>NO2 Forecast Dashboard</h1>
         <p class="lead">Cleaned DEFRA AURN data, a 24-hour lookback window, and three sequence models: LSTM, GRU, and TCN.</p>
       </div>
 
@@ -668,7 +668,7 @@ HTML = """
         </div>
 
         <aside class="result-note">
-          <strong>{{ best_model }} has the lowest RMSE.</strong>
+          <strong>{{ best_model }} has the lowest RMSE</strong>
           <p class="hint">{{ result_note }}</p>
         </aside>
       </div>
